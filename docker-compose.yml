@@ -1,0 +1,39 @@
+version: '2.2'
+services:
+  esaka-eureka-service:
+    container_name: esaka-eureka-service
+    build:
+      context: esaka-eureka-service/
+      dockerfile: Dockerfile
+    image: esaka-eureka-service
+    networks:
+       - "network1"
+    ports:
+      - 8070:8070
+  esaka-gateway-api:
+    container_name: esaka-gateway-api
+    build:
+      context: esaka-gateway-api/
+      dockerfile: Dockerfile
+    image: esaka-gateway-api
+    environment:
+          - REGISTRY_HOST=esaka-eureka-service
+    networks:
+      - "network1"
+    ports:
+      - 8079:8079
+  esaka-filestore:
+    container_name: esaka-filestore
+    build:
+      context: esaka-filestore/
+      dockerfile: Dockerfile
+    environment:
+      - REGISTRY_HOST=esaka-eureka-service
+    networks:
+      - "network1"
+    image: esaka-filestore
+    ports:
+      - 8071:8071
+networks:
+  network1:
+    driver: bridge

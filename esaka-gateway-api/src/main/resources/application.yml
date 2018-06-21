@@ -6,10 +6,16 @@ server:
   port: 8079
 
 eureka:
+  instance:
+    hostname: localhost
   client:
     fetchRegistry: true
     registerWithEureka: true
     serviceUrl:
-      defaultZone: http://localhost:8070/eureka/
-  instance:
-    hostname: localhost
+      defaultZone: http://${registry.host:localhost}:${registry.port:8070}/eureka
+zuul:
+  routes:
+    esaka-filestore:
+      path: /filestore/**
+      serviceId: esaka-filestore
+      stripPrefix: false

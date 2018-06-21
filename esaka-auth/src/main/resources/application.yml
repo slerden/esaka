@@ -11,7 +11,7 @@ spring:
       show_sql: true
     properties.hibernate.temp.use_jdbc_metadata_defaults: false
   application:
-    name: esaka-filestore
+    name: esaka-auth
 
 server:
   port: 8071

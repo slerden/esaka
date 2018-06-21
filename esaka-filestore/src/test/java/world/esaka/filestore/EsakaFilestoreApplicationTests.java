@@ -1,4 +1,4 @@
-package world.esaka.esakaeurekaclient;
+package world.esaka.filestore;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
