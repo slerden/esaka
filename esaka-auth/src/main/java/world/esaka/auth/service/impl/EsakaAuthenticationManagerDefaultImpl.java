@@ -1,12 +1,12 @@
-package world.esaka.auth.service;
+package world.esaka.auth.service.impl;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public class EsakaAuthenticationManager implements AuthenticationManager {
+@Service
+public class EsakaAuthenticationManagerDefaultImpl implements AuthenticationManager {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 

@@ -1,5 +1,19 @@
 version: '2.2'
 services:
+  esaka-db-postgres:
+      container_name: esaka-db-postgres
+      build:
+        context: db_esaka/
+        dockerfile: Dockerfile
+      environment:
+        - POSTGRESQL_DB=postgres
+        - POSTGRESQL_USER=postgres
+        - POSTGRESQL_PASS=root
+      networks:
+        - "network1"
+      image: esaka-db-postgres
+      ports:
+        - 5432:5432
   esaka-eureka-service:
     container_name: esaka-eureka-service
     build:
@@ -17,7 +31,7 @@ services:
       dockerfile: Dockerfile
     image: esaka-gateway-api
     environment:
-          - REGISTRY_HOST=esaka-eureka-service
+      - REGISTRY_HOST=esaka-eureka-service
     networks:
       - "network1"
     ports:
@@ -29,11 +43,30 @@ services:
       dockerfile: Dockerfile
     environment:
       - REGISTRY_HOST=esaka-eureka-service
+      - POSTGRESQL_DB=postgres
+      - POSTGRESQL_USER=postgres
+      - POSTGRESQL_PASS=root
     networks:
       - "network1"
     image: esaka-filestore
     ports:
       - 8071:8071
+  esaka-auth:
+      container_name: esaka-auth
+      build:
+        context: esaka-auth/
+        dockerfile: Dockerfile
+      environment:
+        - REGISTRY_HOST=esaka-eureka-service
+        - POSTGRESQL_DB=postgres
+        - POSTGRESQL_USER=postgres
+        - POSTGRESQL_PASS=root
+      networks:
+        - "network1"
+      image: esaka-auth
+      ports:
+        - 8072:8072
+        - 7072:7072
 networks:
   network1:
     driver: bridge

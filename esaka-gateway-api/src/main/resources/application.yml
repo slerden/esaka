@@ -18,4 +18,8 @@ zuul:
     esaka-filestore:
       path: /filestore/**
       serviceId: esaka-filestore
-      stripPrefix: false
+      stripPrefix: true
+    esaka-auth:
+      path: /auth/**
+      serviceId: esaka-auth
+      stripPrefix: true

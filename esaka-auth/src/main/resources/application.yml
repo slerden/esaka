@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: root
+    url: jdbc:postgresql://esaka-db-postgres:5432/${POSTGRESQL_DB}
+    username: ${POSTGRESQL_USER}
+    password: ${POSTGRESQL_PASS}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -13,8 +13,13 @@ spring:
   application:
     name: esaka-auth
 
+security:
+  token:
+    secret: TheQuestionIsWhoCares
+    maxAgeSeconds: 86400
+
 server:
-  port: 8071
+  port: 8072
 
 eureka:
   instance:
