@@ -3,4 +3,4 @@ COPY target/esaka-filestore-0.0.1-SNAPSHOT.jar /usr/src/esaka/
 WORKDIR /usr/src/esaka
 EXPOSE 8071
 EXPOSE 7071
-CMD ["java", "-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=7071,suspend=n -jar", "esaka-filestore-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "esaka-filestore-0.0.1-SNAPSHOT.jar"]

@@ -1,9 +1,10 @@
 package world.esaka.auth.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import world.esaka.auth.model.Role;
 import world.esaka.auth.model.User;
 import world.esaka.auth.repository.UserRepository;
@@ -45,14 +46,15 @@ public class UserServiceDefaultImpl implements UserService {
     }
 
     @Override
-    public User changePassword(String username, String oldPassword, String newPassword) {
-        User user = userRepository.findByUsername(username);
-        if (user.getPassword().equals(passwordEncoder.encode(oldPassword))) {
-            user.setPassword(passwordEncoder.encode(newPassword));
-            userRepository.save(user);
-        } else {
-            throw new RuntimeException();
+    public User update(String username, User user) {
+        User foundUser = userRepository.findByUsername(username);
+        if (StringUtils.isNotEmpty(user.getEmail())) {
+            foundUser.setEmail(user.getEmail());
         }
-        return user;
+        if (StringUtils.isNotEmpty(user.getNewPassword())) {
+            foundUser.setPassword(passwordEncoder.encode(user.getNewPassword()));
+        }
+        userRepository.save(foundUser);
+        return foundUser;
     }
 }

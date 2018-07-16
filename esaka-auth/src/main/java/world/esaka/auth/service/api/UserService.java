@@ -6,5 +6,5 @@ public interface UserService {
     User findByUsername(String username);
     User findById(Long id);
     User create(User user);
-    User changePassword(String username, String oldPassword, String newPassword);
+    User update(String username, User user);
 }

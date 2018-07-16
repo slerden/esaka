@@ -1,16 +1,25 @@
 package world.esaka.auth.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.hateoas.Identifiable;
-import org.springframework.hateoas.ResourceSupport;
+import world.esaka.auth.validation.annotation.IsCorrectPassword;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "ESAKA_USER")
-public class User  implements Serializable, Identifiable<Long> {
+@IsCorrectPassword(groups = User.Update.class)
+public class User implements Serializable {
+
+    public interface Update{}
+
+    public interface Create{}
+
+
+
 
     public User() {
     }
@@ -28,19 +37,32 @@ public class User  implements Serializable, Identifiable<Long> {
     private Long userId;
 
     @Column
+    @NotNull(groups = Create.class, message = "esaka.auth.user.username.required")
+    @Pattern(regexp = "^[A-Za-z\\d]*$",groups = Create.class)
+    @Size(min = 3, max = 16, groups = Create.class)
     private String username;
 
     @Column
+    @NotNull(groups = {Create.class, Update.class}, message = "esaka.auth.user.password.required")
+    @Pattern(regexp = "^[A-Za-z\\d]*$",groups = Create.class, message = "esaka.auth.user.password.pattern")
+    @Size(min = 3, max = 64, groups = Create.class, message = "esaka.auth.user.password.length")
     private String password;
 
     @Column
     private Date createDate;
 
     @Column
+    @Pattern(regexp = "^.+@.+\\..+$",groups = {Update.class, Create.class}, message = "esaka.auth.user.email.pattern")
+    @Size(max = 254, groups = Create.class, message = "esaka.auth.user.email.length")
     private String email;
 
     @Column
     private Date updateDate;
+
+    @Transient
+    @Pattern(regexp = "^[A-Za-z\\d]*$",groups = Update.class, message = "esaka.auth.user.password.pattern")
+    @Size(min = 3, max = 64, groups = Update.class, message = "esaka.auth.user.password.length")
+    private String newPassword;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 10)
@@ -62,7 +84,6 @@ public class User  implements Serializable, Identifiable<Long> {
         this.username = username;
     }
 
-    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -103,8 +124,16 @@ public class User  implements Serializable, Identifiable<Long> {
         this.role = role;
     }
 
-    @Override
     public Long getId() {
         return userId;
+    }
+
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 }
