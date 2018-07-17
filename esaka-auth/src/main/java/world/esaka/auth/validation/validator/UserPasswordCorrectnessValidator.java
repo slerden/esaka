@@ -1,6 +1,7 @@
 package world.esaka.auth.validation.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,7 +22,8 @@ public class UserPasswordCorrectnessValidator implements ConstraintValidator<IsC
 
     @Override
     public boolean isValid(User s, ConstraintValidatorContext constraintValidatorContext) {
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
         if (s.getPassword() != null) {
             User user = userRepository.findByUsername(principal.getUsername());
             if (!passwordEncoder.matches(s.getPassword(), user.getPassword())) {
