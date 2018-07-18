@@ -37,14 +37,14 @@ public class User implements Serializable {
     private Long userId;
 
     @Column
-    @NotNull(groups = Create.class, message = "esaka.auth.user.username.required")
-    @Pattern(regexp = "^[A-Za-z\\d]*$",groups = Create.class)
+    @NotNull(groups = Create.class)
+    @Pattern(regexp = "^[A-Za-z\\d]*$",groups = Create.class, message = "{esaka.validation.pattern.latinchars.numbers}")
     @Size(min = 3, max = 16, groups = Create.class)
     private String username;
 
     @Column
-    @NotNull(groups = {Create.class, Update.class}, message = "esaka.auth.user.password.required")
-    @Pattern(regexp = "^[A-Za-z\\d]*$",groups = Create.class, message = "esaka.auth.user.password.pattern")
+    @NotNull(groups = {Create.class, Update.class})
+    @Pattern(regexp = "^[A-Za-z\\d]*$",groups = Create.class, message = "{esaka.validation.pattern.latinchars.numbers}")
     @Size(min = 3, max = 64, groups = Create.class, message = "esaka.auth.user.password.length")
     private String password;
 
@@ -52,7 +52,7 @@ public class User implements Serializable {
     private Date createDate;
 
     @Column
-    @Pattern(regexp = "^.+@.+\\..+$",groups = {Update.class, Create.class}, message = "esaka.auth.user.email.pattern")
+    @Pattern(regexp = "^.+@.+\\..+$",groups = {Update.class, Create.class}, message = "{esaka.validation.pattern.email}")
     @Size(max = 254, groups = Create.class, message = "esaka.auth.user.email.length")
     private String email;
 
@@ -60,7 +60,7 @@ public class User implements Serializable {
     private Date updateDate;
 
     @Transient
-    @Pattern(regexp = "^[A-Za-z\\d]*$",groups = Update.class, message = "esaka.auth.user.password.pattern")
+    @Pattern(regexp = "^[A-Za-z\\d]*$",groups = Update.class, message = "{esaka.validation.pattern.latinchars.numbers}")
     @Size(min = 3, max = 64, groups = Update.class, message = "esaka.auth.user.password.length")
     private String newPassword;
 

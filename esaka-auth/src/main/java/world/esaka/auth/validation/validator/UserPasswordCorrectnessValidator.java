@@ -27,11 +27,11 @@ public class UserPasswordCorrectnessValidator implements ConstraintValidator<IsC
         if (s.getPassword() != null) {
             User user = userRepository.findByUsername(principal.getUsername());
             if (!passwordEncoder.matches(s.getPassword(), user.getPassword())) {
-                constraintValidatorContext.disableDefaultConstraintViolation();
-                constraintValidatorContext
-                        .buildConstraintViolationWithTemplate("esaka.auth.user.password.wrong")
-                        .addPropertyNode("password")
-                        .addConstraintViolation();
+//                constraintValidatorContext.disableDefaultConstraintViolation();
+//                constraintValidatorContext
+//                        .buildConstraintViolationWithTemplate("esaka.auth.user.password.wrong")
+//                        .addPropertyNode("password")
+//                        .addConstraintViolation();
                 return false;
             }
         }

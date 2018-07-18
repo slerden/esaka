@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UserPasswordCorrectnessValidator.class)
 public @interface IsCorrectPassword {
-    String message() default "esaka.auth.user.password.wrong";
+    String message() default "{javax.validation.constraints.IsCorrectPassword.message}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
