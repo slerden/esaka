@@ -18,9 +18,6 @@ public class User implements Serializable {
 
     public interface Create{}
 
-
-
-
     public User() {
     }
 
@@ -45,7 +42,7 @@ public class User implements Serializable {
     @Column
     @NotNull(groups = {Create.class, Update.class})
     @Pattern(regexp = "^[A-Za-z\\d]*$",groups = Create.class, message = "{esaka.validation.pattern.latinchars.numbers}")
-    @Size(min = 3, max = 64, groups = Create.class, message = "esaka.auth.user.password.length")
+    @Size(min = 3, max = 64, groups = Create.class)
     private String password;
 
     @Column
@@ -53,7 +50,7 @@ public class User implements Serializable {
 
     @Column
     @Pattern(regexp = "^.+@.+\\..+$",groups = {Update.class, Create.class}, message = "{esaka.validation.pattern.email}")
-    @Size(max = 254, groups = Create.class, message = "esaka.auth.user.email.length")
+    @Size(max = 254, groups = Create.class)
     private String email;
 
     @Column
@@ -61,7 +58,7 @@ public class User implements Serializable {
 
     @Transient
     @Pattern(regexp = "^[A-Za-z\\d]*$",groups = Update.class, message = "{esaka.validation.pattern.latinchars.numbers}")
-    @Size(min = 3, max = 64, groups = Update.class, message = "esaka.auth.user.password.length")
+    @Size(min = 3, max = 64, groups = Update.class)
     private String newPassword;
 
     @Enumerated(EnumType.STRING)

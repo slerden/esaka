@@ -26,6 +26,10 @@ public class UserPasswordCorrectnessValidator implements ConstraintValidator<IsC
         UserDetails principal = (UserDetails) authentication.getPrincipal();
         if (s.getPassword() != null) {
             User user = userRepository.findByUsername(principal.getUsername());
+            constraintValidatorContext.disableDefaultConstraintViolation();
+            constraintValidatorContext
+                    .buildConstraintViolationWithTemplate("{javax.validation.constraints.IsCorrectPassword.message}")
+                    .addPropertyNode("password").addConstraintViolation();
             if (!passwordEncoder.matches(s.getPassword(), user.getPassword())) {
                 return false;
             }
