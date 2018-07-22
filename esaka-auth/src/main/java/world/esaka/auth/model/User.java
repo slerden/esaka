@@ -1,6 +1,7 @@
 package world.esaka.auth.model;
 
 import world.esaka.auth.validation.annotation.IsCorrectPassword;
+import world.esaka.auth.validation.annotation.UsernameIsNotAlreadyExists;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "ESAKA_USER")
@@ -19,6 +21,10 @@ public class User implements Serializable {
     public interface Create{}
 
     public User() {
+    }
+
+    public User(Long userId) {
+        this.userId = userId;
     }
 
     public User(String username, String password, String email, Role role) {
@@ -37,6 +43,7 @@ public class User implements Serializable {
     @NotNull(groups = Create.class)
     @Pattern(regexp = "^[A-Za-z\\d]*$",groups = Create.class, message = "{esaka.validation.pattern.latinchars.numbers}")
     @Size(min = 3, max = 16, groups = Create.class)
+    @UsernameIsNotAlreadyExists(groups = Create.class)
     private String username;
 
     @Column
@@ -64,6 +71,9 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(length = 10)
     private Role role;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<RefreshToken> refreshTokens;
 
     public Long getUserId() {
         return userId;
@@ -132,5 +142,13 @@ public class User implements Serializable {
 
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
+    }
+
+    public List<RefreshToken> getRefreshTokens() {
+        return refreshTokens;
+    }
+
+    public void setRefreshTokens(List<RefreshToken> refreshTokens) {
+        this.refreshTokens = refreshTokens;
     }
 }

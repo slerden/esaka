@@ -4,7 +4,7 @@ import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Date;
 
-public class UserProfileDTO extends ResourceSupport {
+public class UserProfileDto extends ResourceSupport {
     private String username;
     private String email;
     private Date createDate;

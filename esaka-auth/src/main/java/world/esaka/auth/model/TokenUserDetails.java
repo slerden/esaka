@@ -6,26 +6,29 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Set;
 
 public class TokenUserDetails extends User implements UserDetails {
-    private String token;
+    private String accessToken;
+    private String refreshToken;
     private String profileName;
     private Set<SimpleGrantedAuthority> authorities;
 
-    public TokenUserDetails(String username, String password, String email, Role role, String token, String profileName) {
+    public TokenUserDetails(String username, String password, String email, Role role, String accessToken, String refreshToken, String profileName) {
         super(username, password, email, role);
-        this.token = token;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
         this.profileName = profileName;
         this.authorities = Collections.singleton(new SimpleGrantedAuthority(getRole().name()));
     }
 
-    public String getToken() {
-        return token;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     public String getProfileName() {
@@ -63,5 +66,13 @@ public class TokenUserDetails extends User implements UserDetails {
 
     public void setAuthorities(Set<SimpleGrantedAuthority> authorities) {
         this.authorities = authorities;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }

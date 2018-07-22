@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.stereotype.Service;
 import world.esaka.auth.controller.UserController;
-import world.esaka.auth.dto.UserProfileDTO;
+import world.esaka.auth.dto.UserProfileDto;
 import world.esaka.auth.model.User;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -21,8 +21,8 @@ public class UserResourceRepresentationService {
         this.modelMapper = modelMapper;
     }
 
-    public UserProfileDTO getResource(User user) {
-        UserProfileDTO result = modelMapper.map(user, UserProfileDTO.class);
+    public UserProfileDto getResource(User user) {
+        UserProfileDto result = modelMapper.map(user, UserProfileDto.class);
         addLinks(result);
         return result;
     }

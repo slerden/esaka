@@ -7,7 +7,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 
 @Configuration
-@Order(1)
+@Order(4)
 @EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
 public class EsakaRepresentationConfiguration {
 

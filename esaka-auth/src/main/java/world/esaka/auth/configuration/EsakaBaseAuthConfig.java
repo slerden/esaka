@@ -19,7 +19,7 @@ public class EsakaBaseAuthConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService service;
 
     @Autowired
-    public EsakaBaseAuthConfig(PasswordEncoder passwordEncoder, @Qualifier("esakaUserDetailsService") UserDetailsService service) {
+    public EsakaBaseAuthConfig(PasswordEncoder passwordEncoder, @Qualifier("esakaBaseAuthUserDetailsService") UserDetailsService service) {
         this.passwordEncoder = passwordEncoder;
         this.service = service;
     }
@@ -27,15 +27,15 @@ public class EsakaBaseAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .antMatcher("/token")
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .httpBasic()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            .antMatcher("/token/authenticate")
+            .authorizeRequests()
+            .anyRequest()
+            .authenticated()
+            .and()
+            .httpBasic()
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package world.esaka.auth.service.impl;
+package world.esaka.auth.service.impl.security;
 
 import com.auth0.jwt.exceptions.InvalidClaimException;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -24,8 +24,9 @@ public class EsakaTokenAuthenticationUserDetailsService implements Authenticatio
 
     @Override
     public UserDetails loadUserDetails(PreAuthenticatedAuthenticationToken preAuthenticatedAuthenticationToken) throws UsernameNotFoundException {
-        if (preAuthenticatedAuthenticationToken.getPrincipal() != null && preAuthenticatedAuthenticationToken.getPrincipal() instanceof String
-            && preAuthenticatedAuthenticationToken.getCredentials() instanceof String) {
+        if (preAuthenticatedAuthenticationToken.getPrincipal() != null
+                && preAuthenticatedAuthenticationToken.getPrincipal() instanceof String
+                && preAuthenticatedAuthenticationToken.getCredentials() instanceof String) {
             DecodedJWT token;
             try {
                 token = tokenService.decode((String) preAuthenticatedAuthenticationToken.getPrincipal());
@@ -38,6 +39,7 @@ public class EsakaTokenAuthenticationUserDetailsService implements Authenticatio
                     token.getClaim("email").asString(),
                     Role.valueOf(token.getClaim("role").asString()),
                     token.getToken(),
+                    null,
                     token.getSubject());
         } else {
             throw new UsernameNotFoundException("Невозможно извлечь описание пользователя для " + preAuthenticatedAuthenticationToken.getPrincipal());

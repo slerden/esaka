@@ -10,7 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import world.esaka.auth.dto.UserProfileDTO;
+import world.esaka.auth.dto.UserProfileDto;
 import world.esaka.auth.hateoas.representation.UserResourceRepresentationService;
 import world.esaka.auth.model.TokenUserDetails;
 import world.esaka.auth.model.User;
@@ -36,26 +36,26 @@ public class UserController {
     }
 
     @PostMapping
-    public UserProfileDTO create(@Validated(User.Create.class) @RequestBody User creationUserModel) {
+    public UserProfileDto create(@Validated(User.Create.class) @RequestBody User creationUserModel) {
         return representationService.getResource(userService.create(creationUserModel));
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('U')")
-    public UserProfileDTO get(@PathVariable Long id) {
+    public UserProfileDto get(@PathVariable Long id) {
         User user = userService.findById(id);
         return representationService.getResource(user);
     }
 
-    @PatchMapping("/current/update")
-    public ResponseEntity<UserProfileDTO> changePassword(@AuthenticationPrincipal TokenUserDetails tokenUserDetails,
-                                                        @Validated(User.Update.class) @RequestBody User updatedUser) {
+    @PatchMapping("/current")
+    public ResponseEntity<UserProfileDto> changePassword(@AuthenticationPrincipal TokenUserDetails tokenUserDetails,
+                                                         @Validated(User.Update.class) @RequestBody User updatedUser) {
         updatedUser = userService.update(tokenUserDetails.getUsername(), updatedUser);
-        return new ResponseEntity<UserProfileDTO>(representationService.getResource(updatedUser), HttpStatus.OK);
+        return new ResponseEntity<UserProfileDto>(representationService.getResource(updatedUser), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/current", method = {RequestMethod.GET})
-    public UserProfileDTO getCurrentUser(@AuthenticationPrincipal TokenUserDetails tokenUserDetails) {
+    public UserProfileDto getCurrentUser(@AuthenticationPrincipal TokenUserDetails tokenUserDetails) {
         User user = userService.findByUsername(tokenUserDetails.getUsername());
         return representationService.getResource(user);
     }

@@ -1,4 +1,4 @@
-package world.esaka.auth.service.impl;
+package world.esaka.auth.service.impl.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ import world.esaka.auth.service.api.TokenService;
 import world.esaka.auth.service.api.UserService;
 
 @Service
-public class EsakaUserDetailsService implements UserDetailsService {
+public class EsakaBaseAuthUserDetailsService implements UserDetailsService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -21,7 +21,7 @@ public class EsakaUserDetailsService implements UserDetailsService {
     private final TokenService tokenService;
 
     @Autowired
-    public EsakaUserDetailsService(UserService userService, TokenService tokenService) {
+    public EsakaBaseAuthUserDetailsService(UserService userService, TokenService tokenService) {
         this.userService = userService;
         this.tokenService = tokenService;
     }
@@ -41,6 +41,6 @@ public class EsakaUserDetailsService implements UserDetailsService {
                 user.getUsername(),
                 user.getPassword(),
                 user.getEmail(),
-                user.getRole(), tokenService.encode(user), user.getUsername());
+                user.getRole(), tokenService.encodeAccessToken(user), tokenService.createRefreshToken(user), user.getUsername());
     }
 }

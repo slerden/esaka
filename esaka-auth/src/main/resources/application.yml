@@ -17,6 +17,7 @@ security:
   token:
     secret: TheQuestionIsWhoCares
     maxAgeSeconds: 86400
+    maxAgeRefreshTokenSeconds : 604800
 
 server:
   port: 8072
