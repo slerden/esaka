@@ -16,7 +16,7 @@ import world.esaka.auth.model.TokenUserDetails;
 import world.esaka.auth.model.User;
 import world.esaka.auth.service.api.UserService;
 
-@RequestMapping("/users")
+@RequestMapping("/user")
 @RestController
 public class UserController {
 

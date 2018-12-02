@@ -1,5 +1,8 @@
 package world.esaka.auth.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import world.esaka.auth.validation.annotation.IsCorrectPassword;
 import world.esaka.auth.validation.annotation.UsernameIsNotAlreadyExists;
 
@@ -8,13 +11,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "ESAKA_USER")
 @IsCorrectPassword(groups = User.Update.class)
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
 
     public interface Update{}
 
@@ -75,6 +80,9 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<RefreshToken> refreshTokens;
 
+    @Column
+    private Boolean enabled = true;
+
     public Long getUserId() {
         return userId;
     }
@@ -87,8 +95,33 @@ public class User implements Serializable {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return getEnabled();
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority(getRole().name()));
     }
 
     public String getPassword() {
@@ -150,5 +183,13 @@ public class User implements Serializable {
 
     public void setRefreshTokens(List<RefreshToken> refreshTokens) {
         this.refreshTokens = refreshTokens;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 }
