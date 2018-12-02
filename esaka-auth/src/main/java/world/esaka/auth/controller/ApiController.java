@@ -16,6 +16,9 @@ public class ApiController {
     public ResourceSupport links() {
         ResourceSupport result = new ResourceSupport();
         result.add(linkTo(methodOn(UserController.class).create(null)).withRel("create").withType(RequestMethod.POST.name()));
+        result.add(linkTo(methodOn(TokenController.class).authToken(null)).withRel("authenticate").withType(RequestMethod.GET.name()));
+        result.add(linkTo(methodOn(TokenController.class).refreshToken(null)).withRel("refreshToken").withType(RequestMethod.GET.name()));
+        result.add(linkTo(methodOn(UserController.class).getCurrentUser(null)).withRel("current").withType(RequestMethod.GET.name()));
         return result;
     }
 

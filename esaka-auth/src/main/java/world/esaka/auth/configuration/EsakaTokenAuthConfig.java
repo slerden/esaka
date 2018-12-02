@@ -31,10 +31,9 @@ public class EsakaTokenAuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .antMatcher(PATTERN)
                 .authorizeRequests()
-                    .antMatchers(HttpMethod.POST, "/user").anonymous()
-                .anyRequest().authenticated()
+                .antMatchers(PATTERN).access("hasRole('U')")
+                .antMatchers(HttpMethod.POST, "/user").anonymous()
                 .and()
                 .addFilterBefore(authFilter(), RequestHeaderAuthenticationFilter.class)
                 .authenticationProvider(preAuthProvider())

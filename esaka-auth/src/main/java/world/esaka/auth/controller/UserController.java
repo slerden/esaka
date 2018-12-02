@@ -16,7 +16,7 @@ import world.esaka.auth.model.TokenUserDetails;
 import world.esaka.auth.model.User;
 import world.esaka.auth.service.api.UserService;
 
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RestController
 public class UserController {
 
@@ -36,12 +36,12 @@ public class UserController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public UserProfileDto create(@Validated(User.Create.class) @RequestBody User creationUserModel) {
         return representationService.getResource(userService.create(creationUserModel));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('U')")
     public UserProfileDto get(@PathVariable Long id) {
         User user = userService.findById(id);
         return representationService.getResource(user);

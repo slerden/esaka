@@ -18,12 +18,12 @@ public class TokenController {
 
 
     @GetMapping("/token/authenticate")
-    public TokenDto getToken(@AuthenticationPrincipal TokenUserDetails userDetails) {
+    public TokenDto authToken(@AuthenticationPrincipal TokenUserDetails userDetails) {
         return new TokenDto(userDetails.getAccessToken(), userDetails.getRefreshToken());
     }
 
     @GetMapping("/token/refresh")
-    public TokenDto tokenDto(@AuthenticationPrincipal TokenUserDetails userDetails) {
+    public TokenDto refreshToken(@AuthenticationPrincipal TokenUserDetails userDetails) {
         return new TokenDto(userDetails.getAccessToken(), userDetails.getRefreshToken());
     }
 }
